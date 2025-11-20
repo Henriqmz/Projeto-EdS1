@@ -1,0 +1,77 @@
+classDiagram
+direction LR
+
+%% ========= CLASSES ========= %%
+
+class Interface {
+    +menuInicial()
+    +menuAgendarCorte()
+}
+
+class Controlador {
+    +cadastraCliente()
+    +login()
+    +apresentaHorariosDisponiveis()
+    +apresentaOpcoes()
+}
+
+class BancoDeDados {
+    -clientes: Cliente[]
+    -barbeiros: Barbeiro[]
+    -cortes: Corte[]
+    +adicionaCliente()
+    +adicionaBarbeiro()
+    +adicionaDescricao()
+}
+
+class Cliente {
+    -email: string
+    -senha: string
+    -telefone: string
+    -agenda: Agenda
+    +setEmail()
+    +setSenha()
+    +setTelefone()
+}
+
+class Barbeiro {
+    -email: string
+    -senha: string
+    -agenda: Agenda
+    +setEmail()
+    +setSenha()
+}
+
+class Corte {
+    -descricaoCorte: string
+    +setDesc()
+    +getDesc()
+}
+
+class Agenda {
+    -dia: string
+    -horario: string[]
+    +agendar()
+    +cancelar()
+    +reagendar()
+    +verificarHorarios()
+    +verificarAgendamentos()
+}
+
+%% ========= RELAÇÕES ========= %%
+
+%% Dependências
+Interface --> Controlador
+Controlador --> BancoDeDados
+Controlador --> Cliente
+Controlador --> Barbeiro
+Controlador --> Agenda
+
+%% Agregações (BD mantém coleções)
+BancoDeDados o-- Cliente : 0..*
+BancoDeDados o-- Barbeiro : 0..*
+BancoDeDados o-- Corte : 0..*
+
+%% Composições (Agenda pertence a cada um)
+Cliente *-- Agenda : 1..1
+Barbeiro *-- Agenda : 1..1
